@@ -1,0 +1,125 @@
+:root {
+}
+
+*, html, body {
+  margin: 0;
+  padding: 0;
+
+  box-sizing: border-box;
+
+  outline: none;
+
+  font-family: monospace;
+}
+
+header {
+  padding: 1rem 2rem;
+
+  background-color: #121313;
+  color: #fff;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+main {
+  padding: 2rem;
+
+  display: flex;
+
+  justify-content: center;
+
+  gap: 2rem;
+}
+
+#display {
+  background-color: #121313;
+  border: 1rem solid #121313;
+}
+
+.container {
+  padding: 2rem 1rem;
+}
+
+.title {
+  display: block;
+  font-size: 1.5rem;
+
+  border-bottom: 2px solid #121313;
+
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.slider {
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+
+  cursor: pointer;
+
+  width: 100%;
+}
+
+.slider::-webkit-slider-runnable-track {
+  background-color: #ddd;
+  height: 0.5rem;
+
+  border-radius: 0.2rem;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+
+  margin-top: -0.2rem;
+  background-color: #121313;
+  color: #121313;
+
+  width: 1rem;
+  height: 1rem;
+  
+  border-radius: 50%;
+}
+
+.slider::-moz-range-thumb {
+  border: none;
+  margin-top: -0.2rem;
+  background-color: #121313;
+
+  width: 1rem;
+  height: 1rem;
+  
+  border-radius: 50%;
+}
+
+
+.slider::range-progress {
+  background-color: #121313;
+  color: #121313;
+}
+
+
+ul {
+  list-style: none;
+}
+
+.button {
+  width: 100%;
+  font-size: 2rem;
+
+  padding: 0.5rem 2rem;
+
+  margin: 0.5rem 0;
+
+  border: none;
+  border-radius: .5rem;
+
+  background-color: #121313;
+  color: #fff;
+}
+
+.button:hover {
+  opacity: 0.9;
+}

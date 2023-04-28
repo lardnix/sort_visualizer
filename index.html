@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sort Visualizer</title>
+
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+      <h1>Sorting Visualizer</h1>
+    </header>
+
+    <main>
+      <div class="container">
+        <canvas id="display"></canvas>
+      </div>
+
+      <div class="container">
+        <label class="title" for="">Size</label>
+        <input class="slider" id="range_slider" type="range">
+        <label id="range_visualizer" for=""></label>
+
+        <button class="button" id="randomize_button">Randomize</button>
+
+        <label class="title" for="">Sorts</label>
+
+        <ul>
+          <li>
+            <button class="button" id="bubble_sort_button">Bubble Sort</button>
+          </li>
+          <li>
+            <button class="button" id="quick_sort_button">Quick Sort</button>
+          </li>
+        </ul>
+      </div>
+    </main>
+
+    <script src="js/index.js"></script>
+</body>
+</html>
