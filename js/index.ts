@@ -97,6 +97,28 @@ async function quick_sort(display: HTMLCanvasElement, ctx: CanvasRenderingContex
   render(display, ctx, array, null);
 }
 
+async function selection_sort(display: HTMLCanvasElement, ctx: CanvasRenderingContext2D, array: number[]) {
+  for (let i = 0; i < array.length; i++) {
+    let lowest_index = i;
+    for (let j = i + 1; j < array.length; j++) {
+      if (array[j] <= array[lowest_index]) {
+        lowest_index = j;
+      }
+    }
+
+
+    if (lowest_index != i) {
+      render(display, ctx, array, i);
+      swap(array, i, lowest_index);
+      render(display, ctx, array, lowest_index);
+
+      await sleep(1);
+    }
+  }
+
+  render(display, ctx, array, null);
+}
+
 window.onload = () => {
   const display = document.getElementById("display") as HTMLCanvasElement;
   const ctx = display.getContext("2d") as CanvasRenderingContext2D;
@@ -106,6 +128,7 @@ window.onload = () => {
   const randomize_button = document.getElementById("randomize_button") as HTMLButtonElement;
   const bubble_sort_button = document.getElementById("bubble_sort_button") as HTMLButtonElement;
   const quick_sort_button = document.getElementById("quick_sort_button") as HTMLButtonElement;
+  const selection_sort_button = document.getElementById("selection_sort_button") as HTMLButtonElement;
 
   let array = create_array(DEFAULT_ARRAY_SIZE);
 
@@ -143,5 +166,9 @@ window.onload = () => {
 
   quick_sort_button.onclick = () => {
     quick_sort(display, ctx, array, 0, array.length - 1);
+  }
+
+  selection_sort_button.onclick = () => {
+    selection_sort(display, ctx, array);
   }
 }
