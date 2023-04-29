@@ -86,6 +86,11 @@ function quick_sort(display, ctx, array, left, right) {
             yield quick_sort(display, ctx, array, left, pivot_index - 1);
             yield quick_sort(display, ctx, array, pivot_index + 1, right);
         }
+    });
+}
+function quick_sort_wrapper(display, ctx, array) {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield quick_sort(display, ctx, array, 0, array.length - 1);
         render(display, ctx, array, null);
     });
 }
@@ -109,18 +114,29 @@ function selection_sort(display, ctx, array) {
     });
 }
 window.onload = () => {
+    const Sorts = [
+        {
+            name: "bubble_sort",
+            function: bubble_sort,
+        },
+        {
+            name: "quick_sort",
+            function: quick_sort_wrapper,
+        },
+        {
+            name: "selection_sort",
+            function: selection_sort,
+        }
+    ];
     const display = document.getElementById("display");
     const ctx = display.getContext("2d");
+    display.width = DISPLAY_WIDTH;
+    display.height = DISPLAY_HEIGHT;
     const range_visualizer = document.getElementById("range_visualizer");
     const range_slider = document.getElementById("range_slider");
     const randomize_button = document.getElementById("randomize_button");
-    const bubble_sort_button = document.getElementById("bubble_sort_button");
-    const quick_sort_button = document.getElementById("quick_sort_button");
-    const selection_sort_button = document.getElementById("selection_sort_button");
     let array = create_array(DEFAULT_ARRAY_SIZE);
     randomize_array(display, ctx, array);
-    display.width = DISPLAY_WIDTH;
-    display.height = DISPLAY_HEIGHT;
     render(display, ctx, array, null);
     range_visualizer.innerHTML = DEFAULT_ARRAY_SIZE.toString();
     range_slider.min = "100";
@@ -137,13 +153,10 @@ window.onload = () => {
     randomize_button.onclick = () => {
         randomize_array(display, ctx, array);
     };
-    bubble_sort_button.onclick = () => {
-        bubble_sort(display, ctx, array);
-    };
-    quick_sort_button.onclick = () => {
-        quick_sort(display, ctx, array, 0, array.length - 1);
-    };
-    selection_sort_button.onclick = () => {
-        selection_sort(display, ctx, array);
-    };
+    for (const sort of Sorts) {
+        const sort_button = document.getElementById(`${sort.name}_button`);
+        sort_button.onclick = () => {
+            sort.function(display, ctx, array);
+        };
+    }
 };

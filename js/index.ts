@@ -92,7 +92,10 @@ async function quick_sort(display: HTMLCanvasElement, ctx: CanvasRenderingContex
     await quick_sort(display, ctx, array, left, pivot_index - 1);
     await quick_sort(display, ctx, array, pivot_index + 1, right);
   }
+}
 
+async function quick_sort_wrapper(display: HTMLCanvasElement, ctx: CanvasRenderingContext2D, array: number[]) {
+  await quick_sort(display, ctx, array, 0, array.length - 1);
 
   render(display, ctx, array, null);
 }
@@ -119,27 +122,44 @@ async function selection_sort(display: HTMLCanvasElement, ctx: CanvasRenderingCo
   render(display, ctx, array, null);
 }
 
+interface Sort {
+  name: string;
+  function(display: HTMLCanvasElement, ctx: CanvasRenderingContext2D, array: number[]): Promise<void>;
+}
+
 window.onload = () => {
+  const Sorts: Sort[] = [
+    {
+      name: "bubble_sort",
+      function: bubble_sort,
+    },
+    {
+      name: "quick_sort",
+      function: quick_sort_wrapper,
+    },
+    {
+      name: "selection_sort",
+      function: selection_sort,
+    }
+  ];
+
   const display = document.getElementById("display") as HTMLCanvasElement;
   const ctx = display.getContext("2d") as CanvasRenderingContext2D;
-
-  const range_visualizer = document.getElementById("range_visualizer") as HTMLLabelElement;
-  const range_slider = document.getElementById("range_slider") as HTMLInputElement;
-  const randomize_button = document.getElementById("randomize_button") as HTMLButtonElement;
-  const bubble_sort_button = document.getElementById("bubble_sort_button") as HTMLButtonElement;
-  const quick_sort_button = document.getElementById("quick_sort_button") as HTMLButtonElement;
-  const selection_sort_button = document.getElementById("selection_sort_button") as HTMLButtonElement;
-
-  let array = create_array(DEFAULT_ARRAY_SIZE);
-
-  randomize_array(display, ctx, array);
 
   display.width = DISPLAY_WIDTH;
   display.height = DISPLAY_HEIGHT;
 
+  const range_visualizer = document.getElementById("range_visualizer") as HTMLLabelElement;
+  const range_slider = document.getElementById("range_slider") as HTMLInputElement;
+  const randomize_button = document.getElementById("randomize_button") as HTMLButtonElement;
+
+  let array = create_array(DEFAULT_ARRAY_SIZE);
+
+  randomize_array(display, ctx, array);
   render(display, ctx, array, null);
 
   range_visualizer.innerHTML = DEFAULT_ARRAY_SIZE.toString();
+
   range_slider.min = "100";
   range_slider.max = "1000";
   range_slider.value = DEFAULT_ARRAY_SIZE.toString();
@@ -151,24 +171,20 @@ window.onload = () => {
 
     array = create_array(parseInt(value));
   });
+
   range_slider.addEventListener("change", () => {
     randomize_array(display, ctx, array);
-  })
-
+  });
 
   randomize_button.onclick = () => {
     randomize_array(display, ctx, array);
-  };
-
-  bubble_sort_button.onclick = () => {
-    bubble_sort(display, ctx, array);
-  };
-
-  quick_sort_button.onclick = () => {
-    quick_sort(display, ctx, array, 0, array.length - 1);
   }
 
-  selection_sort_button.onclick = () => {
-    selection_sort(display, ctx, array);
+  for (const sort of Sorts) {
+    const sort_button = document.getElementById(`${sort.name}_button`) as HTMLButtonElement;
+
+    sort_button.onclick = () => {
+      sort.function(display, ctx, array);
+    }
   }
 }
